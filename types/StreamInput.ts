@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import { Stream } from '../entity/Stream';
 
 @InputType()
-export class Streaminput implements Partial<Stream> {
+export class StreamInput implements Partial<Stream> {
   @Field({ nullable: true })
   id?: ObjectId;
 

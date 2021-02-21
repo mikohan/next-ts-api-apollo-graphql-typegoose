@@ -5,8 +5,8 @@ import {
   FieldResolver,
   Ctx,
   Arg,
-  Roog,
-  UserMiddleware,
+  Root,
+  UseMiddleware,
 } from 'type-graphql';
 import { ObjectId } from 'mongodb';
 import { MyContext } from '../types/MyContext';
@@ -25,14 +25,14 @@ export class SteamResolver {
   }
 
   @Query(() => [Stream])
-  @UserMiddleware(isAuth)
+  @UseMiddleware(isAuth)
   streams(@Ctx() ctx: MyContext) {
     // 2. Display all streams for current user
     return StreamModel.find({ author: ctx.res.locals.userId });
   }
 
   @Mutation(() => Stream)
-  @UserMiddleware(isAuth)
+  @UseMiddleware(isAuth)
   async addStream(
     @Arg('input') streamInput: StreamInput,
     @Ctx() ctx: MyContext
@@ -47,7 +47,7 @@ export class SteamResolver {
   }
 
   @Mutation(() => Stream)
-  @UserMiddleware(isAuth)
+  @UseMiddleware(isAuth)
   async editStream(
     @Arg('input') stremInput: StreamInput,
     @Ctx() ctx: MyContext
@@ -65,7 +65,7 @@ export class SteamResolver {
   }
 
   @Mutation(() => Boolean)
-  @UserMiddleware(isAuth)
+  @UseMiddleware(isAuth)
   async deleteStream(
     @Arg('streamId', () => ObjectIdScalar) streamId: ObjectId,
     @Ctx() ctx: MyContext
@@ -79,5 +79,10 @@ export class SteamResolver {
       throw new Error('Stream not found');
     }
     return true;
+  }
+
+  @FieldResolver()
+  async author(@Root() stream: Stream): Promise<User | null> {
+    return await UserModel.findById(stream.author);
   }
 }
