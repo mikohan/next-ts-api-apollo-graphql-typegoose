@@ -45,4 +45,22 @@ export class SteamResolver {
     await stream.save();
     return stream;
   }
+
+  @Mutation(() => Stream)
+  @UserMiddleware(isAuth)
+  async editStream(
+    @Arg('input') stremInput: StreamInput,
+    @Ctx() ctx: MyContext
+  ): Promise<Stream> {
+    const { id, title, description, url } = stremInput;
+    const stream = await StreamModel.finOneAndUpdate(
+      { _id: id, author: ctx.res.locals.userId },
+      { title, description, url },
+      { runValidators: true, new: true }
+    );
+    if (!stream) {
+      throw new Error('Stream not found');
+    }
+    return stream;
+  }
 }
