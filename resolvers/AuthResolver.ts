@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import { UserModel } from '../entity/User';
-import { AuthInput } from 'types/AuthInput';
+import { AuthInput } from '../types/AuthInput';
 import { UserResponse } from '../types/UserResponse';
 
 @Resolver()
@@ -60,7 +60,10 @@ export class AuthResolver {
       id: existingUser.id,
     };
 
-    const token = jwt.sign(payload, process.env.SESSION_SECRET || 'jdjdjjd');
+    const token = jwt.sign(
+      payload,
+      process.env.SESSION_SECRET || 'somecoolsecret'
+    );
 
     return { user: existingUser, token };
   }

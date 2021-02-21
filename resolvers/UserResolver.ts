@@ -16,6 +16,6 @@ export class UserResolver {
   @Query(() => User, { nullable: true })
   @UseMiddleware(isAuth)
   async currentUser(@Ctx() ctx: MyContext): Promise<User | null> {
-    return await UserModel.findByid(ctx.res.locals.userId);
+    return await UserModel.findById(ctx.res.locals.userId);
   }
 }

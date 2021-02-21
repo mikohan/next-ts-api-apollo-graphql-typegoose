@@ -2,7 +2,7 @@ import { MiddlewareFn } from 'type-graphql';
 import { MyContext } from './MyContext';
 import jwt from 'jsonwebtoken';
 
-const APP_SECRET = process.env.SESSION_SECRET || 'slslsllsls';
+const APP_SECRET = process.env.SESSION_SECRET || 'somecoolsecret';
 
 export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
   const authorization = context.req.headers['authorization'];

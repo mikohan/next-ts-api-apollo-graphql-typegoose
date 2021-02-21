@@ -53,7 +53,7 @@ export class StreamResolver {
     @Ctx() ctx: MyContext
   ): Promise<Stream> {
     const { id, title, description, url } = stremInput;
-    const stream = await StreamModel.finOneAndUpdate(
+    const stream = await StreamModel.findOneAndUpdate(
       { _id: id, author: ctx.res.locals.userId },
       { title, description, url },
       { runValidators: true, new: true }
@@ -70,7 +70,7 @@ export class StreamResolver {
     @Arg('streamId', () => ObjectIdScalar) streamId: ObjectId,
     @Ctx() ctx: MyContext
   ): Promise<Boolean | undefined> {
-    const deleted = await StreamModel.findByAndDelete({
+    const deleted = await StreamModel.findOneAndDelete({
       _id: streamId,
       author: ctx.res.locals.userId,
     });
