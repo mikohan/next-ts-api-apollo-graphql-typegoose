@@ -23,4 +23,26 @@ export class SteamResolver {
     //1. Fid a single stream
     return StreamModel.findById(streamId);
   }
+
+  @Query(() => [Stream])
+  @UserMiddleware(isAuth)
+  streams(@Ctx() ctx: MyContext) {
+    // 2. Display all streams for current user
+    return StreamModel.find({ author: ctx.res.locals.userId });
+  }
+
+  @Mutation(() => Stream)
+  @UserMiddleware(isAuth)
+  async addStream(
+    @Arg('input') streamInput: StreamInput,
+    @Ctx() ctx: MyContext
+  ): Promise<Stream> {
+    // 3. Create a new user's stream
+    const stream = new StreamModel({
+      ...streamInput,
+      author: ctx.res.locals.userId,
+    } as Stream);
+    await stream.save();
+    return stream;
+  }
 }
