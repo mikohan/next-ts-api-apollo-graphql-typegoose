@@ -63,4 +63,21 @@ export class SteamResolver {
     }
     return stream;
   }
+
+  @Mutation(() => Boolean)
+  @UserMiddleware(isAuth)
+  async deleteStream(
+    @Arg('streamId', () => ObjectIdScalar) streamId: ObjectId,
+    @Ctx() ctx: MyContext
+  ): Promise<Boolean | undefined> {
+    const deleted = await StreamModel.findByAndDelete({
+      _id: streamId,
+      author: ctx.res.locals.userId,
+    });
+
+    if (!deleted) {
+      throw new Error('Stream not found');
+    }
+    return true;
+  }
 }
