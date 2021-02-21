@@ -17,7 +17,7 @@ import { StreamInput } from '../types/StreamInput';
 import { isAuth } from '../middleware/isAuth';
 
 @Resolver(() => Stream)
-export class SteamResolver {
+export class StreamResolver {
   @Query(() => Stream, { nullable: true })
   stream(@Arg('streamId', () => ObjectIdScalar) streamId: ObjectId) {
     //1. Fid a single stream
