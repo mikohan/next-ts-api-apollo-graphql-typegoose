@@ -4,6 +4,8 @@ import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import cors from 'cors';
 
+import nextApp from '@next-ts/app';
+
 import createSchema from '../schema';
 import createSession from '../session';
 
