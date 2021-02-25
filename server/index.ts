@@ -10,6 +10,7 @@ import createSchema from '../schema';
 import createSession from '../session';
 
 const port = process.env.PORT || 8888;
+const handle = nextApp.getRequestHandler();
 
 async function createServer() {
   try {
@@ -19,7 +20,6 @@ async function createServer() {
     const app = express();
 
     const corsOptions = {
-      origin: process.env.URL_APP,
       credentials: true,
     };
 
@@ -42,6 +42,12 @@ async function createServer() {
     });
 
     apolloServer.applyMiddleware({ app, cors: corsOptions });
+
+    // create next app request handler
+    // propare the next app
+
+    await nextApp.prepare();
+    app.get('*', (req, res) => handle(req, res));
 
     // start server
     app.listen({ port }, () => {
