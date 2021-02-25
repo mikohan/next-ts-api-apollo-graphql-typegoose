@@ -1,9 +1,6 @@
 {
   "name": "@next-ts/api",
   "version": "1.0.0",
-  "engines": {
-    "node": "10.9.x"
-  },
   "description": "",
   "main": "index.js",
   "scripts": {
